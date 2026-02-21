@@ -30,10 +30,11 @@ export async function checkAllStocks(): Promise<CheckResult[]> {
 
     try {
       const data = await getStockData(stock.symbol);
-      const status: "above" | "below" = data.price < data.sma200 ? "below" : "above";
-      const crossedBelow = status === "below" && stock.last_sma_status !== "below";
+      const status: "above" | "below" =
+        data.price < data.sma200 ? "below" : "above";
+      const isBelow = status === "below";
 
-      if (crossedBelow) {
+      if (isBelow) {
         const percentBelow = ((data.sma200 - data.price) / data.sma200) * 100;
 
         await sendSignalEmail({
@@ -62,7 +63,7 @@ export async function checkAllStocks(): Promise<CheckResult[]> {
         price: data.price,
         sma200: data.sma200,
         status,
-        alerted: crossedBelow,
+        alerted: isBelow,
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error";

@@ -56,7 +56,9 @@ describe("checkAllStocks", () => {
 
   it("returns empty array when no stocks in portfolio", async () => {
     const stocksChain = mockSupabaseChain();
-    stocksChain.returns = jest.fn().mockResolvedValue({ data: [], error: null });
+    stocksChain.returns = jest
+      .fn()
+      .mockResolvedValue({ data: [], error: null });
     stocksChain.select = jest.fn().mockReturnValue({
       order: jest.fn().mockReturnValue(stocksChain),
       returns: stocksChain.returns,
@@ -116,11 +118,11 @@ describe("checkAllStocks", () => {
         symbol: "AAPL",
         price: 145.0,
         sma200: 150.0,
-      })
+      }),
     );
   });
 
-  it("does not alert when already below SMA (no crossover)", async () => {
+  it("alerts every day when price is below SMA (even if already below)", async () => {
     const stocks = [
       { id: "1", symbol: "AAPL", name: "Apple", last_sma_status: "below" },
     ];
@@ -132,6 +134,13 @@ describe("checkAllStocks", () => {
         return {
           select: jest.fn().mockReturnValue({
             returns: jest.fn().mockResolvedValue({ data: stocks, error: null }),
+          }),
+        };
+      }
+      if (table === "alerts") {
+        return {
+          insert: jest.fn().mockReturnValue({
+            select: jest.fn().mockResolvedValue({ data: null, error: null }),
           }),
         };
       }
@@ -149,12 +158,14 @@ describe("checkAllStocks", () => {
       sma200: 150.0,
     });
 
+    mockSendSignalEmail.mockResolvedValue(undefined);
+
     const results = await checkAllStocks();
 
     expect(results).toHaveLength(1);
-    expect(results[0].alerted).toBe(false);
+    expect(results[0].alerted).toBe(true);
     expect(results[0].status).toBe("below");
-    expect(mockSendSignalEmail).not.toHaveBeenCalled();
+    expect(mockSendSignalEmail).toHaveBeenCalled();
   });
 
   it("does not alert when price is above SMA", async () => {
