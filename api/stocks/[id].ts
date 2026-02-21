@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getSupabase } from "../../lib/supabase.js";
-import { deleteStockSchema } from "../../lib/schemas.js";
+import { getSupabase } from "../../lib/supabase";
+import { deleteStockSchema } from "../../lib/schemas";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "DELETE") {

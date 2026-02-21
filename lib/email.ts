@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import { getEnv } from "./env.js";
+import { getEnv } from "./env";
 
 export type SignalEmailData = {
   symbol: string;

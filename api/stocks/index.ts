@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getSupabase } from "../../lib/supabase.js";
-import { addStockSchema } from "../../lib/schemas.js";
-import { getQuote } from "../../lib/twelve-data.js";
+import { getSupabase } from "../../lib/supabase";
+import { addStockSchema } from "../../lib/schemas";
+import { getQuote } from "../../lib/twelve-data";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { checkAllStocks } from "../../lib/sma-checker.js";
+import { checkAllStocks } from "../../lib/sma-checker";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET" && req.method !== "POST") {

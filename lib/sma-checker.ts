@@ -1,7 +1,7 @@
-import { getSupabase } from "./supabase.js";
-import { getStockData, delay } from "./twelve-data.js";
-import { sendSignalEmail } from "./email.js";
-import type { Stock } from "./schemas.js";
+import { getSupabase } from "./supabase";
+import { getStockData, delay } from "./twelve-data";
+import { sendSignalEmail } from "./email";
+import type { Stock } from "./schemas";
 
 export type CheckResult = {
   symbol: string;

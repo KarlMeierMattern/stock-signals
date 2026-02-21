@@ -1,4 +1,4 @@
-import { getEnv } from "./env.js";
+import { getEnv } from "./env";
 
 const BASE_URL = "https://api.twelvedata.com";
 
